@@ -1,0 +1,79 @@
+User Interface  Information for "Dining Spot" Restaurant Website
+
+The Dining Spot restaurant website is designed to offer a comprehensive and user-friendly experience for customers. The User Interface is structured to ensure easy navigation, accessibility, and a visually appealing design. Below is a detailed breakdown of the UI components and their functionalities:
+1. Header
+Restaurant Name: "Dining Spot" is prominently displayed at the top of the page in a large, elegant font. The name is accompanied by a logo that reflects the restaurant's theme (e.g., a fork and knife or a plate icon).
+Tagline: we serves the Delicious Food.Experience the taste of food.Also we will Provide the Luxurious Accommodation
+-Navigation Bar: A horizontal navigation bar is placed just below the header. It includes the following links:
+  Home: Takes users back to the homepage.
+  Food Menu: Links to the food menu section.
+  Table Reservation: Links to the table reservation form.
+  Online Order: Links to the online food ordering section.
+  Accommodation: Links to the accommodation booking section.
+  About Us: Links to the "About Us" section.
+  Contact: Links to the contact information section.
+Search Bar: A small search bar is included in the header for users to quickly search for specific dishes or information.
+
+2. Food Menu
+Section Title: "Explore Our Delicious Menu" is displayed in bold, centered at the top of the section.
+Layout: The menu is displayed in a grid layout, with each dish presented in a card format. Each card includes:
+  High-Quality Image: A large, appetizing photo of the dish.
+Dish Name: The name of the dish is displayed prominently below the image.
+ Price: The price of the dish is displayed clearly, often in a bold or highlighted font.
+Categories: The menu is divided into categories for easy navigation:Like starters,Sweets,Main course etc.
+
+4. Online Order
+  Name: Input field for the customer's full name.
+  Email: Input field for the customer's email address.
+  Phone: Input field for the customer's phone number.
+  Delivary Adress:Input field for the customer’s Adress
+  View Menu:Here user select the items what ever he wants later add to card and click on check out option and select payment method.
+Place Order Button: A large, prominent button labeled "Place Order" is placed at the bottom of the form. When clicked, it submits the order and displays a confirmation message.
+
+5. Accommodation Booking
+Section Title: "Book Your Stay" is displayed in bold, centered at the top of the section.
+Form Fields: The accommodation booking form includes the following fields:
+  Name: Input field for the customer's full name.
+  Email: Input field for the customer's email address.
+  Phone: Input field for the customer's phone number.
+  Check-In Date: A date picker allows users to select the check-in date.
+  Check-Out Date: A date picker allows users to select the check-out date.
+Book Now Button: A large, prominent button labeled "Book Now" is placed at the bottom of the form. When clicked, it submits the booking request and displays a confirmation message.
+
+6. About Us
+Section Title: "About Dining Spot" is displayed in bold, centered at the top of the section.
+ History: A brief history of the restaurant, including when it was founded and its mission.
+ Chefs: Information about the chefs, including their culinary expertise and signature dishes.
+  Invitation: A warm message inviting customers to visit and experience the restaurant for themselves.
+
+7. Contact
+  Email: diningspot@gmail.com
+  Phone: +91 9392604717
+  Address: Denton City, Texas, USA
+ 
+  Social Media Links: Icons linking to the restaurant's social media profiles (e.g., Facebook, Instagram, Youtube).
+ Contact Form: A simple form for users to send inquiries or feedback. It includes fields for name, email, subject, and message, along with a "Send" button.
+
+Over View of the User
+1. Homepage:
+   - Customers land on the homepage, which features a hero image or slideshow and quick links to key sections.
+
+2. Food Menu:
+   - Customers browse the menu, view dish details, and add items to their cart for online ordering.
+
+3. Table Reservation:
+   - Customers fill out the reservation form and receive a confirmation message.
+
+4. Online Order:
+   - Customers place their food orders online and receive an order confirmation.
+
+5. Accommodation Booking:
+   - Customers book rooms for their stay and receive a booking confirmation.
+
+6. About Us:
+   - Customers learn more about the restaurant's history, chefs, and unique offerings.
+
+7. Contact:
+   - Customers find the restaurant's contact information, location, and social media links.
+
+This was detailed information of the User Interface design ensures that “Dining Spot” provides a delightful and efficient experience for its customers, whether they are dining in, ordering online, or booking accommodations. The design is intuitive, visually appealing, and optimized for all devices, making it easy for customers to interact with the restaurant.

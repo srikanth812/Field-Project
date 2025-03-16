@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Online Food Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 15px;
+            display: inline-block;
+            text-align: center;
+            width: 200px;
+            padding: 10px;
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .menu-item h3 {
+            margin: 10px 0;
+        }
+
+        .menu-item button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .menu-item button:hover {
+            background-color: #218838;
+        }
+
+        #cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+
+        #cart-items {
+            margin-bottom: 20px;
+        }
+
+        #checkout {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            display: none;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        /* Modal Styling */
+        #bill-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        #bill-content {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        #bill-content h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .bill-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bill-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .bill-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .bill-header p {
+            margin: 5px 0;
+            color: #777;
+        }
+
+        .bill-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bill-summary {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .bill-summary div {
+            margin-bottom: 10px;
+        }
+
+        .total {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+            font-size: 1.2em;
+            color: #28a745;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .print-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .print-button:hover {
+            background-color: #0056b3;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 16px;
+        }
+
+        .close-button:hover {
+            background-color: #cc0000;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Card Details Form */
+        #card-details-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #card-details-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #card-details-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #card-details-form button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        #card-details-form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Online Order - Dining Spot</h1>
+        <nav>
+            <a href="#cart"><h3>Cart</h3></a>
+        </nav>
+    </header>
+
+    <!-- Cart Section -->
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-items">
+            <!-- Cart items will be displayed here -->
+        </div>
+        <p id="total-price">Total: $0</p>
+        <button id="checkout-button">Checkout</button>
+    </section>
+
+    <!-- Menu Items -->
+    <div class="menu-item">
+        <img src="https://www.hercircle.in/hcm/EngageImage/22855C7D-7D09-47D0-9CB0-90F5514B8219/D/67311CCE-5B52-402F-95EB-991687B932EF.jpg" alt="Kharvas">
+        <h4 class="item-name">Kharvas</h4>
+        <p class="item-price">$11.99</p>
+        <button onclick="addToCart('Kharvas', 11.99)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://www.holidify.com/images/cmsuploads/compressed/Payesh_-_Rice_Boiled_in_Milk_-_Howrah_2013-10-18_3520_20180523170631.JPG" alt="Payesh">
+        <h4 class="item-name">Payesh</h4>
+        <p class="item-price">$15.99</p>
+        <button class="add-to-cart" onclick="addToCart('Payesh', 15.99)">Add to Cart</button>
+    </div>
+
+
+
+  <!-- Desserts Section -->
+        <div class="menu-section">
+            <h2>DESSERTS</h2>
+            <div class="menu-category">
+                
+                <div class="menu-grid">
+                    <!-- Dessert Items -->
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2021/01/HoneyMadeleines_c_AdamGibson-3e5b16a.jpg?quality=90&webp=true&resize=1100,733" alt="Honey madeleines">
+                        <h4 class="item-name">Honey madeleines</h4>
+                        <p class="item-price">$12.99</p>
+                        <button class="add-to-cart" onclick="addToCart('Honey madeleines', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://th-i.thgim.com/public/incoming/vricut/article65937264.ece/alternates/LANDSCAPE_1200/Spicy%20Venue-apricot%20delight.jpg" alt="USA: Cheesecake">
+                        <h4 class="item-name">apricot delight</h4>
+                        <p class="item-price">$12.99</p>
+                       <button class="add-to-cart" onclick="addToCart('apricot delight', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2020/07/Crullers-1-f1f9a91-scaled.jpg?quality=90&webp=true&resize=1100,733" alt="French crullers">
+                        <h4 class="item-name">French crullers</h4>
+                        <p class="item-price">$12.99</p>
+                                   <button class="add-to-cart" onclick="addToCart('French crullers', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2023/07/PeachMelba-8d41ce0.jpeg?quality=90&webp=true&resize=1100,733" alt="Peach melba">
+                        <h4 class="item-name">Peach melba</h4>
+                        <p class="item-price">$12.99</p>
+                                           <button class="add-to-cart" onclick="addToCart('Peach melba', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2021/01/Olive_Feb21_6.1.21_LemonLimeTart-075-dd95d1d.jpg?quality=90&webp=true&resize=1100,733" alt="Lemon and lime tart">
+                        <h4 class="item-name">Lemon and lime tart</h4>
+                        <p class="item-price">$12.99</p>
+                                        <button class="add-to-cart" onclick="addToCart('Lemon and lime tart', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2014/12/3289.jpg?quality=90&webp=true&resize=375,341" alt="Chocolate fondant">
+                        <h4 class="item-name">Chocolate fondant</h4>
+                        <p class="item-price">$12.99</p>
+                                    <button class="add-to-cart" onclick="addToCart('Chocolate fondant', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2018/09/OLI-0918_HereNow-CremeCaramel_28005-cb31e47.jpg?quality=90&webp=true&resize=375,341" alt="Kahlúa crème caramel">
+                        <h4 class="item-name">Kahlúa crème caramel</h4>
+                        <p class="item-price">$12.99</p>
+                                     <button class="add-to-cart" onclick="addToCart('Kahlúa crème caramel', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2016/03/22114.jpg?quality=90&webp=true&resize=600,400" alt="Chocolate éclairs">
+                        <h4 class="item-name">Chocolate éclairs</h4>
+                        <p class="item-price">$12.99</p>
+                                  <button class="add-to-cart" onclick="addToCart('Chocolate éclairs', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2015/09/211213_Olive_Souffle_1949-6985ff3.jpg?quality=90&webp=true&crop=1309px,2178px,2480px,1652px&resize=1100,733" alt="Chocolate soufflé">
+                        <h4 class="item-name">Chocolate soufflé</h4>
+                        <p class="item-price">$12.99</p>
+                                       <button class="add-to-cart" onclick="addToCart('Chocolate soufflé', 12.99)">Add to Cart</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2020/11/4_Olive_Get_It_Right_Pear_Tart_Tatin_DW.-1d2bf51.jpg?quality=90&webp=true&resize=1100,733" alt="Pear tarte tatin">
+                        <h4 class="item-name">Pear tarte tatin</h4>
+                        <p class="item-price">$12.99</p>
+                               <button class="add-to-cart" onclick="addToCart('Pear tarte tatin', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<!-- Fast Food Section -->
+
+        <div class="menu-section">
+            <h2>FAST FOOD</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                   
+                    <img src="https://i.pinimg.com/enabled_lo/236x/7b/69/ea/7b69ea839992e50e1d570d2c56bf70ab.jpg" alt="Noodles"><br>
+                    <span class="item-price">$3.95</span><br>
+                         <span class="item-name">Noodles</span><br>
+                           <button class="add-to-cart" onclick="addToCart('Noodles', 3.95)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    
+                    <img src="https://i.pinimg.com/236x/b9/ff/32/b9ff32c78f37aae474dded1be3d48d45.jpg" alt="Fried Rice"><br>
+                    <span class="item-price">$4.95</span><br>
+                      <span class="item-name">Fried Rice</span><br>
+                                <button class="add-to-cart" onclick="addToCart('Fried Rice', 4.95)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    
+                    <img src="https://i.pinimg.com/enabled_lo/236x/32/25/82/322582f81dd43d0cf57502c1d9a7a586.jpg" alt="Tacos"><br>
+                    <span class="item-price">$3.00</span><br>
+                       <span class="item-name">Tacos</span><br>
+                          <button class="add-to-cart" onclick="addToCart('Tacos', 3.00)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                   
+                    <img src="https://i.pinimg.com/enabled_lo/236x/13/1f/fe/131ffe17fbaca82da95dd14dff884e17.jpg" alt="Burger"><br>
+                    <span class="item-price">$5.05</span><br>
+                      <span class="item-name">Burger</span><br>
+                                 <button class="add-to-cart" onclick="addToCart('Burger', 5.05)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                  
+                    <img src="https://i.pinimg.com/236x/55/6e/f7/556ef7473594d261c3f16b14fa977ced.jpg" alt="Pizza"><br>
+                    <span class="item-price">$4.50</span><br>
+                       <span class="item-name">Pizza</span><br>
+                                      <button class="add-to-cart" onclick="addToCart('Pizza', 4.50)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                   
+                    <img src="https://i.pinimg.com/enabled_lo/236x/3c/54/75/3c54751cdaf44bc2f20a36ece8c4860a.jpg" alt="Fries"><br>
+                    <span class="item-price">$2.10</span><br>
+ <span class="item-name">Fries</span><br>
+                          <button class="add-to-cart" onclick="addToCart('Fries', 2.10)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+                         <!-- Non-Veg Starters -->
+                              <div class="menu-grid">
+                    <div class="menu-item">
+                        
+                        <img src="https://i.pinimg.com/236x/aa/2a/95/aa2a950fcb3d038f0661da5dc1bd5161.jpg" alt="Tandoori"><br>
+                        <span class="item-price">$12.99</span><br>
+                         <span class="item-name">Tandoori</span><br>
+                                  <button class="add-to-cart" onclick="addToCart('Tandoori', 12.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        
+                        <img src="https://i.pinimg.com/236x/ae/b8/a8/aeb8a8b359c017333621eb7b15d47afe.jpg" alt="Chicken 555"><br>
+                        <span class="item-price">$14.99</span><br>
+                         <span class="item-name">Chicken 555</span><br>
+                                  <button class="add-to-cart" onclick="addToCart('Chicken 555', 14.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        
+                        <img src="https://i.pinimg.com/enabled_lo/236x/e2/99/3c/e2993ccf6d5096870cdb0350b39e5dee.jpg" alt="Lemon Chicken"><br>
+                        <span class="item-price">$12.99</span><br>
+                          <span class="item-name">Lemon Chicken</span><br>
+                              <button class="add-to-cart" onclick="addToCart('Lemon Chicken', 12.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        
+                        <img src="https://i.pinimg.com/enabled_lo/236x/7a/f2/54/7af2543097506189dc093c0226b4305a.jpg" alt="Schezwan Chicken"><br>
+                        <span class="item-price">$12.99</span><br>
+                    <span class="item-name">Schezwan Chicken</span><br>
+                                    <button class="add-to-cart" onclick="addToCart('Schezwan Chicken', 12.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                      
+                        <img src="https://i.pinimg.com/236x/e0/1e/ed/e01eed3594beac7038229e4c583e228e.jpg" alt="Dragon Chicken"><br>
+                        <span class="item-price">$12.99</span><br>
+                          <span class="item-name">Dragon Chicken</span><br>
+                                 <button class="add-to-cart" onclick="addToCart('Dragon Chicken', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Veg Starters -->
+            <div class="starter-category">
+                <h3>Veg Starter</h3>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                      
+                        <img src="https://i.pinimg.com/enabled_lo/236x/f4/9d/97/f49d97cb1fd022c9914d12d2f973ac13.jpg" alt="Crispy Corn"><br>
+                        <span class="item-price">$11.99</span><br>
+                               <span class="item-name">Crispy Corn</span><br>
+                         <button class="add-to-cart" onclick="addToCart('Crispy Corn', 11.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                       
+                        <img src="https://i.pinimg.com/236x/b0/8c/cd/b08ccd412f6066fe59ff7c81f06b9b4b.jpg" alt="Crispy Veg"><br>
+                        <span class="item-price">$13.99</span><br>
+                             <span class="item-name">Crispy Veg</span><br>
+                                  <button class="add-to-cart" onclick="addToCart('Crispy Veg', 13.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                      
+                        <img src="https://i.pinimg.com/236x/ed/22/6b/ed226b2142d194cb875b2adbd1825a21.jpg" alt="Chilly Baby Corn"><br>
+                        <span class="item-price">$13.99</span><br>
+                            <span class="item-name">Chilly Baby Corn</span><br>
+                             <button class="add-to-cart" onclick="addToCart('Chilly Baby Corn', 13.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                       
+                        <img src="https://i.pinimg.com/236x/bd/d2/cf/bdd2cf973419568da097ed78072c43d2.jpg" alt="Chilly Paneer"><br>
+                        <span class="item-price">$13.99</span><br>
+                              <span class="item-name">Chilly Paneer</span><br>
+                                    <button class="add-to-cart" onclick="addToCart('Chilly Paneer', 13.99)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        
+                        <img src="https://i.pinimg.com/236x/ed/23/35/ed2335a08f9dd1fcf6d59123eaf984c1.jpg" alt="Veg Spring Rolls"><br>
+                        <span class="item-price">$13.99</span><br>
+                          <span class="item-name">Veg Spring Rolls</span><br>
+                                   <button class="add-to-cart" onclick="addToCart('Veg Spring Rolls', 13.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Shakes Section -->
+    <div class="menu-section">
+        <h2>Shakes</h2>
+        <div class="menu-category">
+            <h3>Shakes</h3>
+            <div class="menu-grid">
+                <!-- Shake Items -->
+                <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2018/4/2/3/LS-Library_Cherry-Almond-Smoothie_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1522725245192.webp" alt="Cherry-Almond Smoothie">
+                    <h4>Cherry-Almond Smoothie</h4>
+                    <p class="price">$11.99</p>
+                               <button class="add-to-cart" onclick="addToCart('Cherry-Almond Smoothie', 11.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2016/9/28/1/HXSP01ZH_Cotton-Candy-Milkshake_s3x4.jpg.rend.hgtvcom.791.1055.85.suffix/1475539317893.webp" alt="Cotton Candy Milkshake">
+                    <h4>Cotton Candy Milkshake</h4>
+                    <p class="price">$14.99</p>
+                                   <button class="add-to-cart" onclick="addToCart('Cotton Candy Milkshake', 14.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/5/28/0/ZB0409H_biscuit-and-jam-shake-recipe_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1371616171954.webp" alt="Biscuit and Jam Shake">
+                    <h4>Biscuit and Jam Shake</h4>
+                    <p class="price">$9.22</p>
+                                  <button class="add-to-cart" onclick="addToCart('Biscuit and Jam Shake', 9.22)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2017/6/30/0/KC1402H_blueberry-pie-milkshake_s3x4.jpg.rend.hgtvcom.791.1055.85.suffix/1498837657965.webp" alt="Blueberry Pie Milkshake">
+                    <h4>Blueberry Pie Milkshake</h4>
+                    <p class="price">$19</p>
+                                 <button class="add-to-cart" onclick="addToCart('Blueberry Pie Milkshake', 19)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2015/12/20/1/CCTIA206H_Strawberry-Cheesecake-Milkshake_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1452198326522.webp" alt="Strawberry Cheesecake Milkshake">
+                    <h4>Strawberry Cheesecake Milkshake</h4>
+                    <p class="price">$14.9</p>
+                               <button class="add-to-cart" onclick="addToCart('Strawberry Cheesecake Milkshake', 14.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2023/4/13/FNM_050123_Chocolate-Cheesecake-Milkshake_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1681396107730.webp" alt="Chocolate Cheesecake Milkshake">
+                    <h4>Chocolate Cheesecake Milkshake</h4>
+                    <p class="price">$19.99</p>
+                                 <button class="add-to-cart" onclick="addToCart('Chocolate Cheesecake Milkshake', 19.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/4/23/0/TM1E49_Sorbet-Shakes_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1382542455442.webp" alt="Sorbet Shakes">
+                    <h4>Sorbet Shakes</h4>
+                    <p class="price">$11.99</p>
+                            <button class="add-to-cart" onclick="addToCart('Sorbet Shakes', 11.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2019/6/10/KC2106_Peanut-Butter-Banana-Milkshake_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1560187532444.webp">
+                    <h4>Peanut Butter Banana Milkshake</h4>
+                    <p class="price">$13.99</p>
+                                <button class="add-to-cart" onclick="addToCart('Peanut Butter Banana Milkshake', 13.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2019/1/11/0/YW1311_Key-Lime-Pie-Milkshake_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1547225183415.webp" alt="Key Lime Pie Milkshake">
+                    <h4>Key Lime Pie Milkshake</h4>
+                    <p class="price">$8.99</p>
+                                <button class="add-to-cart" onclick="addToCart('Key Lime Pie Milkshake', 8.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2019/2/27/0/KC2008_Salted-Caramel-Milkshake_s4x3.jpg.rend.hgtvcom.791.594.85.suffix/1551310524475.webp" alt="Salted Caramel Pretzel">
+                    <h4>Salted Caramel Milkshake</h4>
+                    <p class="price">$16.99</p>
+                                   <button class="add-to-cart" onclick="addToCart('Salted Caramel Milkshake', 16.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2021/02/03/BobbyFlay_BasicVanillaMilkshake_H.jpg.rend.hgtvcom.791.594.85.suffix/1612401890664.webp" alt="Salted Caramel Pretzel">
+                    <h4>Vanilla Milkshake</h4>
+                    <p class="price">$9.99</p>
+                    <button class="add-to-cart" onclick="addToCart('Vanilla Milkshake', 9.99)">Add to Cart</button>
+                </div>
+                <!-- Repeat similar blocks for other shake items -->
+            </div>
+        </div>
+    </div>
+
+<!-- Salad Section -->
+<div class="menu-section">
+    <h2>SALAD</h2>
+    <div class="menu-grid">
+        <div class="menu-item">
+            
+            <img src="https://i.pinimg.com/236x/19/ff/4b/19ff4b8d5392b1d384f8fbcf0c8e187d.jpg" alt="Caesar Salad"><br>
+              <span class="item-name">Caesar Salad</span><br>
+            <span class="item-price">$3.95</span><br>
+                              <button class="add-to-cart" onclick="addToCart('Caesar Salad', 3.95)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+            
+            <img src="https://i.pinimg.com/236x/83/93/eb/8393ebbbf4e8ce3e82f06963beb66bd0.jpg" alt="Cobb Salad"><br>
+            <span class="item-name">Cobb Salad</span><br>
+            <span class="item-price">$4.95</span><br>
+                         <button class="add-to-cart" onclick="addToCart('Cobb Salad', 4.95)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+           
+            <img src="https://i.pinimg.com/236x/cd/64/f3/cd64f3c196ecda75375b03b564cc119f.jpg" alt="Crab Louie Salad"><br>
+             <span class="item-name">Crab Louie Salad</span><br>
+            <span class="item-price">$3.00</span><br>
+                              <button class="add-to-cart" onclick="addToCart('Crab Louie Salad', 3.00)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+          
+            <img src="https://i.pinimg.com/236x/52/d3/7a/52d37a35114b2e8b4dd650cc061bc1ed.jpg" alt="Ambrosia Salad"><br>
+             <span class="item-name">Ambrosia Salad</span><br>
+            <span class="item-price">$5.05</span><br>
+                            <button class="add-to-cart" onclick="addToCart('Ambrosia Salad', 5.05)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+            
+            <img src="https://i.pinimg.com/236x/cf/ce/5d/cfce5d219bf6afdcd1ef5208ce584369.jpg" alt="Tabbouleh Salad"><br>
+            <span class="item-name">Tabbouleh Salad</span><br>
+            <span class="item-price">$4.50</span><br>
+                             <button class="add-to-cart" onclick="addToCart('Tabbouleh Salad', 4.50)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+            <img src="https://i.pinimg.com/enabled_lo/236x/0d/f2/d5/0df2d5cb225019fcceb8d134e4417e84.jpg" alt="Nicoise Salad"><br>
+                 
+            <span class="item-name">Nicoise Salad</span><br>
+            <span class="item-price">$2.10</span><br>
+                           <button class="add-to-cart" onclick="addToCart('Nicoise Salad', 2.10)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+         
+            <img src="https://i.pinimg.com/236x/22/ee/c0/22eec0a73c7725bf714083a673838ec3.jpg" alt="Israeli Salad"><br>
+                <span class="item-name">Israeli Salad</span><br>
+            <span class="item-price">$1.20</span><br>
+                           <button class="add-to-cart" onclick="addToCart('Israeli Salad', 1.20)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+            
+            <img src="https://i.pinimg.com/236x/71/58/20/71582016e38b26899e1192bc82e1b03c.jpg" alt="Caprese Salad"><br>
+             <span class="item-name">Caprese Salad</span><br>
+            <span class="item-price">$2.09</span><br>
+                               <button class="add-to-cart" onclick="addToCart('Caprese Salad', 2.09)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+            
+            <img src="https://i.pinimg.com/564x/c5/0c/cf/c50ccf49e566f4ca9d415490afc55428.jpg" alt="Southwest Chicken Salad"><br>
+                <span class="item-name">Southwest Chicken Salad</span><br>
+            <span class="item-price">$5.70</span><br>
+                             <button class="add-to-cart" onclick="addToCart('Southwest Chicken Salad', 5.70)">Add to Cart</button>
+        </div>
+        <div class="menu-item">
+           
+            <img src="https://i.pinimg.com/enabled_lo/236x/eb/cb/b9/ebcbb960d5d992314b90ba13029e05b3.jpg" alt="Italian Salad"><br>
+                <span class="item-name">Italian Salad</span><br>
+            <span class="item-price">$10.90</span><br>
+                           <button class="add-to-cart" onclick="addToCart('Italian Salad', 10.90)">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Moktails Section -->
+    <div class="menu-section">
+        <h2>Moktails</h2>
+        <div class="menu-category">
+            
+            <div class="menu-grid">
+                <!-- Ice Creams Items -->
+          
+    <div class="menu-item">
+                    <img  heigth="700" width="500" src="https://static.toiimg.com/thumb/imgsize-247346,msid-69483400,width-600,height-335,resizemode-75/69483400.jpg" alt="​Sparkling Cherry Limeade">
+                    <h4>​Sparkling Cherry Limeade</h4>
+                    <p class="price">$14.99</p>
+                                    <button class="add-to-cart" onclick="addToCart('Sparkling Cherry Limeade', 14.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://static.toiimg.com/thumb/imgsize-144146,msid-69483389,width-600,height-335,resizemode-75/69483389.jpg" alt="Berry Patch Mocktail">
+                    <h4>Berry Patch Mocktail</h4>
+                    <p class="price">$9.22</p>
+                                       <button class="add-to-cart" onclick="addToCart('Berry Patch Mocktail', 9.22)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://cf.ltkcdn.net/www/images/std/355536-800x534-cocunut-water-cocktail_768538648.webp" alt="Coconut Moktail">
+                    <h4>Coconut Moktail</h4>
+                    <p class="price">$19</p>
+                                   <button class="add-to-cart" onclick="addToCart('Coconut Moktail', 19)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/watermelon-agua-fresca3-1653576878.jpeg?crop=0.9974240082431737xw:1xh;center,top&resize=980:*" alt="Watermelon Agua Fresca">
+                    <h4>Watermelon Agua Fresca</h4>
+                    <p class="price">$14.9</p>
+                                      <button class="add-to-cart" onclick="addToCart('Watermelon Agua Fresca', 14.9)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/whipped-lemonade-1647986394.jpg?crop=0.8333333333333334xw:1xh;center,top&resize=980:*" alt="Whipped Lemonade">
+                    <h4>Whipped Lemonade</h4>
+                    <p class="price">$19.99</p>
+                                       <button class="add-to-cart" onclick="addToCart('Whipped Lemonade', 19.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/jack-frost-mocktail-secondary-66e1fdb150bdb.jpg?crop=0.669xw:1.00xh;0.316xw,0&resize=980:*" alt="Not-So-Naughty Jack Frosties">
+                    <h4>Not-So-Naughty Jack Frosties</h4>
+                    <p class="price">$11.99</p>
+                                 <button class="add-to-cart" onclick="addToCart('Not-So-Naughty Jack Frosties', 11.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://www.letseatcake.com/wp-content/uploads/2023/01/mocktail-recipes-3.jpg">
+                    <h4>Mimosa Mocktail</h4>
+                    <p class="price">$13.99</p>
+                                     <button class="add-to-cart" onclick="addToCart('Mimosa Mocktail', 13.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/brazilian-lemonade-vertical-66c4a1d9bc525.jpg?crop=0.834xw:1.00xh;0.0452xw,0&resize=980:*" alt=" Brazilian Lemonade">
+                    <h4> Brazilian Lemonade</h4>
+                    <p class="price">$8.99</p>
+                                     <button class="add-to-cart" onclick="addToCart('Brazilian Lemonade', 8.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/strawberry-lemonade-shrub-vertical-6605750492c9a.jpg?crop=0.8333957319356047xw:1xh;center,top&resize=980:*" alt="Strawberry-Lemonade Shrub">
+                    <h4>Strawberry-Lemonade Shrub</h4>
+                    <p class="price">$16.99</p>
+                                     <button class="add-to-cart" onclick="addToCart('Strawberry-Lemonade Shrub', 16.99)">Add to Cart</button>
+                </div>
+
+    <div class="menu-item">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/nojito-secondary-67771113e67dc.jpg?crop=0.668xw:1.00xh;0,0&resize=980:*" alt="NOjito">
+                    <h4>NOjito</h4>
+                    <p class="price">$9.99</p>
+                                     <button class="add-to-cart" onclick="addToCart('NOjito', 9.99)">Add to Cart</button>
+                </div>
+                <!-- Repeat similar blocks for other shake items -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Add more menu items here -->
+
+    <!-- Checkout Section -->
+    <section id="checkout">
+        <h2>Checkout</h2>
+        <p>Choose Payment Method:</p>
+        <form id="payment-form">
+            <label>
+                <input type="radio" name="payment" value="Credit Card"> Credit Card
+            </label><br>
+            <label>
+                <input type="radio" name="payment" value="Debit Card"> Debit Card
+            </label><br>
+            <label>
+                <input type="radio" name="payment" value="PayPal"> PayPal
+            </label><br>
+            <label>
+                <input type="radio" name="payment" value="Cash on Delivery"> Cash on Delivery
+            </label><br><br>
+            <div id="card-details-form">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="Enter card number" required>
+                <label for="expiry-date">Expiry Date</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" required>
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="CVV" required>
+                <button type="button" onclick="processCardPayment()">Submit Payment</button>
+            </div>
+            <button type="submit">Confirm Order</button>
+        </form>
+    </section>
+
+    <!-- Bill Modal -->
+    <div id="bill-modal">
+        <div id="bill-content">
+            <button class="close-button" onclick="closeBillModal()">&times;</button>
+            <div class="bill-header">
+                <img src="https://img.freepik.com/premium-vector/golden-d-letter-logo-design-tempalte_89908-473.jpg" alt="Company Logo" style="height: 60px; vertical-align: middle;" alt="Bill Icon">
+                <h3>Dining Spot</h3>
+                <p>Denton City,Texas,USA</p>
+                <p>Phone: 9392604717</p>
+            </div>
+            <h2>Bill Invoice</h2>
+            <div id="bill-details">
+                <!-- Bill details will be displayed here -->
+            </div>
+            <button class="print-button" onclick="window.print()">Print Bill</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        const cart = [];
+        const cartItemsContainer = document.getElementById('cart-items');
+        const totalPriceElement = document.getElementById('total-price');
+        const checkoutButton = document.getElementById('checkout-button');
+        const checkoutSection = document.getElementById('checkout');
+        const paymentForm = document.getElementById('payment-form');
+        const billModal = document.getElementById('bill-modal');
+        const billDetails = document.getElementById('bill-details');
+        const cardDetailsForm = document.getElementById('card-details-form');
+
+        const DELIVERY_CHARGES = 5.00;
+        const GST_RATE = 0.18; // 18% GST
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('cart-item');
+                cartItemElement.innerHTML = `${item.name} - $${item.price.toFixed(2)} <button onclick="removeFromCart(${index})">Remove</button>`;
+                cartItemsContainer.appendChild(cartItemElement);
+                total += item.price;
+            });
+            totalPriceElement.innerText = `Total: $${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Directly show payment methods on checkout button click
+        checkoutButton.addEventListener('click', () => {
+            checkoutSection.style.display = 'block';
+        });
+
+        // Show card details form if Credit Card or Debit Card is selected
+        paymentForm.addEventListener('change', (e) => {
+            const selectedPaymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            if (selectedPaymentMethod === 'Credit Card' || selectedPaymentMethod === 'Debit Card') {
+                cardDetailsForm.style.display = 'block';
+            } else {
+                cardDetailsForm.style.display = 'none';
+            }
+        });
+
+        paymentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            if (paymentMethod === 'Credit Card' || paymentMethod === 'Debit Card') {
+                processCardPayment();
+            } else {
+                generateBill();
+                cart.length = 0; // Clear the cart after successful payment
+                updateCart();
+                checkoutSection.style.display = 'none';
+            }
+        });
+
+        function processCardPayment() {
+            const cardNumber = document.getElementById('card-number').value;
+            const expiryDate = document.getElementById('expiry-date').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (cardNumber && expiryDate && cvv) {
+                alert('Payment processed successfully!');
+                generateBill();
+                cart.length = 0; // Clear the cart after successful payment
+                updateCart();
+                checkoutSection.style.display = 'none';
+            } else {
+                alert('Please fill in all card details.');
+            }
+        }
+
+
+
+        function generateBill() {
+            // Generate order number, time, and date
+            const orderNumber = Math.floor(Math.random() * 1000000);
+            const orderDate = new Date().toLocaleDateString();
+            const orderTime = new Date().toLocaleTimeString();
+
+            // Calculate subtotal, GST, and total with delivery charges
+            const subtotal = cart.reduce((total, item) => total + item.price, 0);
+            const gst = subtotal * GST_RATE;
+            const total = subtotal + gst + DELIVERY_CHARGES;
+
+            // Display bill details
+            billDetails.innerHTML = `
+                <div>Order Number: ${orderNumber}</div>
+                <div>Order Date: ${orderDate}</div>
+                <div>Order Time: ${orderTime}</div>
+                <div id="bill-items">
+                    ${cart.map(item => `
+                        <div class="bill-item">
+                            <span>${item.name}</span>
+                            <span>$${item.price.toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="bill-summary">
+                    <div>Items Cost: $${subtotal.toFixed(2)}</div>
+                    <div>GST (18%): $${gst.toFixed(2)}</div>
+                    <div>Delivery Charges: $${DELIVERY_CHARGES.toFixed(2)}</div>
+                </div>
+                <div class="total">
+                    Total: $${total.toFixed(2)}
+                </div>
+                <div class="thank-you">
+                    Thank you for your order! We hope to see you again soon.
+                </div>
+            `;
+            billModal.style.display = 'flex';
+        }s
+
+        function closeBillModal() {
+            billModal.style.display = 'none';
+        }
+
+
+
+    </script>
+</body>
+</html>

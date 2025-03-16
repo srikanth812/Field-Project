@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Room Booking</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    /* Booking Section Styles */
+    .container {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    .room {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      width: 250px;
+      text-align: center;
+    }
+
+    .room h3 {
+      margin: 10px 0;
+    }
+
+    .room p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .room button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .room button:hover {
+      background-color: #45a049;
+    }
+
+    /* Image Styles */
+    .room-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    /* Checkout Section Styles */
+    .checkout-section {
+      width: 100%;
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-section h2 {
+      text-align: center;
+    }
+
+    .booking-form label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .booking-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .booking-form input[type="date"] {
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Hotel Room Booking</h1>
+  </header>
+
+  <div class="container">
+    <div class="room" id="singleRoom">
+      <img src="https://static.visa2fly.com/blog/blog-production/seven-star-hotels-in-world/seven-star-hotels-in-world.jpeg" class="room-image">
+      <h3>Single Room</h3>
+      <p>$100 per Day</p>
+      <button onclick="selectRoom('single')">Book Now</button>
+    </div>
+    <div class="room" id="doubleRoom">
+      <img src="https://media.hotel7dublin.com/image/upload/f_auto,g_auto,c_auto,w_3840,q_auto/v1708602193/Uploads/Hotel7/Double_and_Single_Room_Hero_b5d513c9d6.jpg" class="room-image">
+      <h3>Double Room</h3>
+      <p>$150 per Day</p>
+      <button onclick="selectRoom('double')">Book Now</button>
+    </div>
+    <div class="room" id="suiteRoom">
+      <img src="https://i.pinimg.com/736x/70/a8/ab/70a8ab5aa285df3fa6c8b95d497dadcd.jpg" class="room-image">
+      <h3>Suite Room</h3>
+      <p>$250 per Day</p>
+      <button onclick="selectRoom('suite')">Book Now</button>
+    </div>
+  </div>
+
+  <div class="checkout-section" id="checkoutSection" style="display:none;">
+    <h2>Checkout</h2>
+    <form id="checkoutForm" class="booking-form">
+      <label for="customerName">Customer Name:</label>
+      <input type="text" id="customerName" placeholder="Enter your name" required>
+
+      <label for="customerMobile">Mobile Number:</label>
+      <input type="tel" id="customerMobile" placeholder="Enter your mobile number" required>
+
+      <h3>Selected Room: <span id="selectedRoom"></span></h3>
+      <h3>Price: $<span id="roomPrice"></span></h3>
+
+      <div class="dates">
+        <label for="checkIn">Check-In Date</label>
+        <input type="date" id="checkIn" name="checkIn" required>
+
+        <label for="checkOut">Check-Out Date</label>
+        <input type="date" id="checkOut" name="checkOut" required>
+      </div>
+
+      <h3>Payment Option: Credit/Debit Card</h3>
+
+      <div>
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" placeholder="Card Number" required>
+
+        <label for="cardholderName">Cardholder Name</label>
+        <input type="text" id="cardholderName" placeholder="Cardholder Name" required>
+
+        <label for="expiryDate">Expiry Date (MM/YY)</label>
+        <input type="text" id="expiryDate" placeholder="Expiry Date (MM/YY)" required>
+
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" placeholder="CVV" required>
+      </div>
+
+      <button type="button" class="submit-btn" onclick="submitBooking()">Confirm Booking</button>
+    </form>
+  </div>
+
+  <script>
+    let roomDetails = {
+      single: { name: "Single Room", price: 100 },
+      double: { name: "Double Room", price: 150 },
+      suite: { name: "Suite Room", price: 250 }
+    };
+
+    function selectRoom(roomType) {
+      document.getElementById('selectedRoom').innerText = roomDetails[roomType].name;
+      document.getElementById('roomPrice').innerText = roomDetails[roomType].price;
+
+      // Show checkout form
+      document.getElementById('checkoutSection').style.display = 'block';
+    }
+
+    function submitBooking() {
+      let customerName = document.getElementById('customerName').value;
+      let customerMobile = document.getElementById('customerMobile').value;
+      let room = document.getElementById('selectedRoom').innerText;
+      let checkIn = document.getElementById('checkIn').value;
+      let checkOut = document.getElementById('checkOut').value;
+      let cardNumber = document.getElementById('cardNumber').value;
+      let cardholderName = document.getElementById('cardholderName').value;
+      let expiryDate = document.getElementById('expiryDate').value;
+      let cvv = document.getElementById('cvv').value;
+
+      if (customerName && customerMobile && cardNumber && cardholderName && expiryDate && cvv) {
+        alert(`Booking Confirmed!\nCustomer: ${customerName}\nMobile: ${customerMobile}\nRoom: ${room}\nCheck-In: ${checkIn}\nCheck-Out: ${checkOut}\nPayment Method: Credit/Debit Card`);
+      } else {
+        alert("Please enter all required details.");
+      }
+    }
+  </script>
+
+</body>
+
+</html>

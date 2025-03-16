@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dessert Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .menu-container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .menu-category {
+            margin-bottom: 30px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            max-width: 250px;
+            width: 100%;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .item-price {
+            font-size: 18px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .add-to-cart {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-to-cart:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-container">
+        <h1>Our Delicious Desserts</h1>
+
+        <!-- Desserts Section -->
+        <div class="menu-section">
+            <h2>DESSERTS</h2>
+            <div class="menu-category">
+                
+                <div class="menu-grid">
+                    <!-- Dessert Items -->
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2021/01/HoneyMadeleines_c_AdamGibson-3e5b16a.jpg?quality=90&webp=true&resize=1100,733" alt="Honey madeleines">
+                        <h4 class="item-name">Honey madeleines</h4>
+                        <p class="item-price">$12.99</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://th-i.thgim.com/public/incoming/vricut/article65937264.ece/alternates/LANDSCAPE_1200/Spicy%20Venue-apricot%20delight.jpg" alt="USA: Cheesecake">
+                        <h4 class="item-name">apricot delight</h4>
+                        <p class="item-price">$12.99</p>
+                      
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2020/07/Crullers-1-f1f9a91-scaled.jpg?quality=90&webp=true&resize=1100,733" alt="French crullers">
+                        <h4 class="item-name">French crullers</h4>
+                        <p class="item-price">$12.99</p>
+                      
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2023/07/PeachMelba-8d41ce0.jpeg?quality=90&webp=true&resize=1100,733" alt="Peach melba">
+                        <h4 class="item-name">Peach melba</h4>
+                        <p class="item-price">$12.99</p>
+                      
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2021/01/Olive_Feb21_6.1.21_LemonLimeTart-075-dd95d1d.jpg?quality=90&webp=true&resize=1100,733" alt="Lemon and lime tart">
+                        <h4 class="item-name">Lemon and lime tart</h4>
+                        <p class="item-price">$12.99</p>
+                    
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2014/12/3289.jpg?quality=90&webp=true&resize=375,341" alt="Chocolate fondant">
+                        <h4 class="item-name">Chocolate fondant</h4>
+                        <p class="item-price">$12.99</p>
+                   
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2018/09/OLI-0918_HereNow-CremeCaramel_28005-cb31e47.jpg?quality=90&webp=true&resize=375,341" alt="Kahlúa crème caramel">
+                        <h4 class="item-name">Kahlúa crème caramel</h4>
+                        <p class="item-price">$12.99</p>
+                       
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2016/03/22114.jpg?quality=90&webp=true&resize=600,400" alt="Chocolate éclairs">
+                        <h4 class="item-name">Chocolate éclairs</h4>
+                        <p class="item-price">$12.99</p>
+                       
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2015/09/211213_Olive_Souffle_1949-6985ff3.jpg?quality=90&webp=true&crop=1309px,2178px,2480px,1652px&resize=1100,733" alt="Chocolate soufflé">
+                        <h4 class="item-name">Chocolate soufflé</h4>
+                        <p class="item-price">$12.99</p>
+                       
+                    </div>
+
+                    <div class="menu-item">
+                        <img src="https://images.immediate.co.uk/production/volatile/sites/2/2020/11/4_Olive_Get_It_Right_Pear_Tart_Tatin_DW.-1d2bf51.jpg?quality=90&webp=true&resize=1100,733" alt="Pear tarte tatin">
+                        <h4 class="item-name">Pear tarte tatin</h4>
+                        <p class="item-price">$12.99</p>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

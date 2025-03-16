@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dining Spot - Festival Events</title>
+    <style>
+        /* Basic reset for margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://media.istockphoto.com/id/479977238/photo/table-setting-for-an-event-party-or-wedding-reception.jpg?s=612x612&w=0&k=20&c=yIKLzW7wMydqmuItTTtUGS5cYTmrRGy0rXk81AltdTA='); /* Background image */
+            background-size: cover; /* Make the background image cover the entire page */
+            background-position: center; /* Center the background image */
+            padding: 20px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8); /* Slight white background to make content readable */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        /* Styling for the festival list section */
+        #festival-list {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #festival-select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Hidden sections (details and booking form) */
+        .hidden {
+            display: none;
+        }
+
+        /* Festival details section */
+        #festival-details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #itinerary-list {
+            margin-top: 15px;
+            list-style-type: none;
+        }
+
+        #itinerary-list li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Booking form section */
+        #booking-form-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="number"] {
+            width: 100px;
+        }
+
+        /* Button styles for form */
+        form button {
+            margin-top: 10px;
+            background-color: #28a745;
+        }
+
+        form button[type="button"] {
+            background-color: #dc3545;
+        }
+
+        form button[type="button"]:hover {
+            background-color: #c82333;
+        }
+
+        form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <section id="festival-list">
+            <h2>Select a Festival to Explore</h2>
+            <select id="festival-select">
+                <option value="">-- Select a Festival --</option>
+                <option value="diwali">Diwali Night</option>
+                <option value="christmas">Christmas Eve</option>
+                <option value="new year">New Year’s Eve Gala</option>
+                <option value="eid">Eid Celebration</option>
+                <option value="holi">Holi Bash</option>
+                <option value="thanksgiving Dinner">Thanksgiving Dinner</option>
+                <option value="Food Festval">Food Festival</option>
+                <option value="Birthday">Celebrate a Birthday</option>
+                <option value=" Restuarant anniversary">Restaurant Anniversary</option>
+            </select>
+        </section>
+
+        <section id="festival-details" class="hidden">
+            <h2 id="festival-title"></h2>
+            <ul id="itinerary-list"></ul>
+            <button onclick="openBookingForm()">Book Your Spot</button>
+        </section>
+
+        <section id="booking-form-section" class="hidden">
+            <h2>Book for <span id="selected-festival"></span></h2>
+            <form id="booking-form">
+                <input type="hidden" id="event-name" name="eventName">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="guests">Number of Guests:</label>
+                <input type="number" id="guests" name="guests" min="1" required>
+
+                <button type="submit">Confirm Booking</button>
+                <button type="button" onclick="closeBookingForm()">Cancel</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript code for the functionality of the page
+        document.getElementById('festival-select').addEventListener('change', function() {
+            const festival = this.value;
+            const detailsSection = document.getElementById('festival-details');
+            const title = document.getElementById('festival-title');
+            const itineraryList = document.getElementById('itinerary-list');
+            
+            if (festival) {
+                title.textContent = festival.charAt(0).toUpperCase() + festival.slice(1).replace('_', ' ');
+                itineraryList.innerHTML = `<li>Itinerary for ${title.textContent}</li>`;
+                detailsSection.classList.remove('hidden');
+                document.getElementById('event-name').value = festival;
+            } else {
+                detailsSection.classList.add('hidden');
+            }
+        });
+
+        function openBookingForm() {
+            const bookingSection = document.getElementById('booking-form-section');
+            bookingSection.classList.remove('hidden');
+            const selectedFestival = document.getElementById('festival-select').value;
+            document.getElementById('selected-festival').textContent = selectedFestival.replace('_', ' ').toUpperCase();
+        }
+
+        function closeBookingForm() {
+            document.getElementById('booking-form-section').classList.add('hidden');
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .menu-container {
+            width: 90%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Two-column grid layout for video items */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+            gap: 20px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-item video {
+            width: 100%; /* Make videos responsive */
+            max-width: 300px; /* Limit video size */
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #28a745;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #218838;
+        }
+
+        /* Responsive Design: Stack columns on smaller screens */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr; /* Stack items in one column */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Restaurant Title -->
+    <div class="header">
+        <h1>Our Menu</h1>
+    </div>
+
+    <div class="menu-container">
+        <h1>Our Menu</h1>
+
+        <!-- Starters Section -->
+        <div class="menu-section">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://videos.pexels.com/video-files/5747588/5747588-uhd_2560_1440_25fps.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Starters.html">Starters</a></li>
+                    </ul>
+                </div>
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://video-previews.elements.envatousercontent.com/1ff44a61-0279-4af6-8a89-6f656a9037d0/watermarked_preview/watermarked_preview.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Fast Food.html">Fast Food</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biryanis Section -->
+        <div class="menu-section">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://media.istockphoto.com/id/1511074526/video/delicious-chicken-biriyani-on-a-white-plate-indian-style-chicken-biryani-with-egg-and-yogurt.mp4?s=mp4-640x640-is&k=20&c=OiQBZSfnorRCUVBLhVS1z2WeVQ-b3RDaW-97SY3UDKc=" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Biryanis.html">Biryanis</a></li>
+                    </ul>
+                </div>
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://assets.mixkit.co/active_storage/video_items/100348/1723062327/100348-video-720.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Salad.html">Salad</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deserts Section -->
+        <div class="menu-section">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://v.ftcdn.net/11/43/19/45/700_F_1143194588_cif0gjDA4kgAVCXxI0fOQVEP5EFlFcLg_ST.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Deserts.html">Deserts</a></li>
+                    </ul>
+                </div>
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://v.ftcdn.net/11/06/81/26/700_F_1106812631_1zCnbOrGU8uwhuqezbaH7iqPQdx3QLJM_ST.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Sweets.html">Sweets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shakes Section -->
+        <div class="menu-section">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://videos.pexels.com/video-files/3031969/3031969-hd_1920_1080_24fps.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Shakes.html">Shakes</a></li>
+                    </ul>
+                </div>
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://videos.pexels.com/video-files/5060123/5060123-uhd_2732_1440_30fps.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Ice Creams.html">Ice Creams</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Moktails Section -->
+        <div class="menu-section">
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <video autoplay muted loop>
+                        <source src="https://media.istockphoto.com/id/484038676/video/bartender-pouring-cocktails-on-counter.mp4?s=mp4-640x640-is&k=20&c=B49krRoYcmpPYaERoOCGhOP-XlRu4hO3jyjJbHuVAqQ=" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <ul class="nav-links">
+                        <li><a href="Mocktails.html">Mocktails</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
